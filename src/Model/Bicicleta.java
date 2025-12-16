@@ -4,19 +4,12 @@ public class Bicicleta extends Veiculo {
 
     public String acessorio;
 
-    public Bicicleta(String acessorio, String modelo, double preco) {
-        super(modelo, preco);
+    public Bicicleta(String acessorio, String modelo, double preco, String cor) {
+        super(modelo, preco, cor);
         this.acessorio = acessorio;
     }
 
-    @Override
-    protected boolean acelera() {
-        return super.acelera();
+    public String getAcessorio() {
+        return acessorio;
     }
-
-    @Override
-    protected boolean freia() {
-        return super.freia();
-    }
-
 }

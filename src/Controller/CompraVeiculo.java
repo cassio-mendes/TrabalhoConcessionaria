@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class CompraVeiculo {
 
     public static void main(String[] args) {
-        //ArrayList serve como um carrinho de compras
+        /*ArrayList serve como um carrinho de compras
         ArrayList<Veiculo> compra = new ArrayList<>();
         Scanner entrada = new Scanner(System.in);
 
@@ -74,6 +74,6 @@ public class CompraVeiculo {
             } catch (IllegalArgumentException e) {
                 System.out.println("Formato de entrada invalido!");
             }
-        }
+        }*/
     }
 }

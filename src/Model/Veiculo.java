@@ -1,20 +1,15 @@
 package Model;
 
-public class Veiculo {
+public abstract class Veiculo {
 
-    public String modelo;
-    public double preco;
+    protected String modelo;
+    protected double preco;
+    protected String cor;
 
-    public Veiculo(String modelo, double preco) {
+    public Veiculo(String modelo, double preco, String cor) {
         this.modelo = modelo;
         this.preco = preco;
+        this.cor = cor;
     }
-    
-    protected boolean acelera(){
-        return true;
-    }
-    
-    protected boolean freia(){
-        return false;
-    }  
+
 }

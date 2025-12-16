@@ -1,23 +1,18 @@
 package Model;
 
-public class Moto extends Veiculo implements Motor {
+public class Moto extends Veiculo implements Motorizado {
 
-    public Moto(String modelo, double preco) {
-        super(modelo, preco);
-    }
+    private double consumoCombustivel;
+    private boolean carenagem;
 
-    public boolean contains(CharSequence s) {
-        return consumo.contains(s);
-    } 
-    
-    @Override
-    protected boolean acelera() {
-        return super.acelera();
+    public Moto(String modelo, double preco, String cor, double consumoCombustivel, boolean carenagem) {
+        super(modelo, preco, cor);
+        this.consumoCombustivel = consumoCombustivel;
+        this.carenagem = carenagem;
     }
 
     @Override
-    protected boolean freia() {
-        return super.freia();
+    public double calcularConsumo() {
+        return this.consumoCombustivel;
     }
-
 }
