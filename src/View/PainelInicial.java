@@ -2,6 +2,9 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 
 public class PainelInicial extends JPanel {
 
@@ -10,9 +13,40 @@ public class PainelInicial extends JPanel {
 
         JLabel titulo = new JLabel("Bem vindo ao administrador de concessionária!");
         titulo.setFont(new Font("Arial", Font.PLAIN, 20));
-        titulo.setBounds(50, 50, 800, 800);
-
+        titulo.setBounds(175, 140, 450, 20);
         this.add(titulo);
+
+        JButton botaoCadastro = new JButton("Cadastrar Veículo");
+        botaoCadastro.setFont(new Font("Arial", Font.PLAIN, 20));
+        botaoCadastro.setBounds(300, 230, 200, 40);
+        botaoCadastro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        this.add(botaoCadastro);
+
+        JButton botaoLista = new JButton("Listar Veículos");
+        botaoLista.setFont(new Font("Arial", Font.PLAIN, 20));
+        botaoLista.setBounds(300, 280, 200, 40);
+        this.add(botaoLista);
+
+        JButton botaoAtualiza = new JButton("Atualizar Veículo");
+        botaoAtualiza.setFont(new Font("Arial", Font.PLAIN, 20));
+        botaoAtualiza.setBounds(300, 330, 200, 40);
+        this.add(botaoAtualiza);
+
+        JButton botaoDeleta = new JButton("Remover Veículo");
+        botaoDeleta.setFont(new Font("Arial", Font.PLAIN, 20));
+        botaoDeleta.setBounds(300, 380, 200, 40);
+        this.add(botaoDeleta);
+        
+        JButton botaoSAIR = new JButton("SAIR");
+        botaoSAIR.setFont(new Font("Arial", Font.PLAIN, 20));
+        botaoSAIR.setBounds(300, 430, 200, 40);
+        this.add(botaoSAIR);
+
         this.setVisible(true);
     }
 

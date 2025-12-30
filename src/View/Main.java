@@ -1,13 +1,14 @@
 package View;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Main {
 
     public static void main(String[] args) {
         JFrame tela = new JFrame("Administração Concessionária");
-        tela.setLocation(450, 100);
-        tela.setSize(1000, 800);
+        tela.setLocationRelativeTo(null);
+        tela.setSize(800, 600);
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         PainelInicial pInicial = new PainelInicial();
