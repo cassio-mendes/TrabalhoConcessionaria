@@ -24,7 +24,7 @@ public class PainelInicial extends PainelPersonalizado {
             public void actionPerformed(ActionEvent e) {
                 String tipoVeiculo = perguntarTipoVeiculo();
 
-                if(!tipoVeiculo.equals(" ")) { tela.trocarPainel("CADASTRO", tipoVeiculo); }
+                if(!tipoVeiculo.equals(" ")) { tela.trocarPainelCadastro(tipoVeiculo); }
             }
         });
         this.add(botaoCadastro);
@@ -35,7 +35,7 @@ public class PainelInicial extends PainelPersonalizado {
         botaoLista.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tela.trocarPainel("LISTAGEM");
+                tela.trocarPainel("LISTAGEM", new PainelListagem(tela));
             }
         });
         this.add(botaoLista);
@@ -46,7 +46,7 @@ public class PainelInicial extends PainelPersonalizado {
         botaoAtualiza.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tela.trocarPainel("ATUALIZACAO");
+                tela.trocarPainel("ATUALIZACAO", new PainelAtualizacao(tela));
             }
         });
         this.add(botaoAtualiza);
@@ -57,7 +57,7 @@ public class PainelInicial extends PainelPersonalizado {
         botaoDeleta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tela.trocarPainel("REMOCAO");
+                tela.trocarPainel("REMOCAO", new PainelRemocao(tela));
             }
         });
         this.add(botaoDeleta);
