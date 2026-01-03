@@ -4,11 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 
 public class PainelInicial extends JPanel {
 
-    public PainelInicial() {
+    private TelaPrincipal tela;
+
+    public PainelInicial(TelaPrincipal tela) {
+        this.tela = tela;
         this.setLayout(null);
 
         JLabel titulo = new JLabel("Bem vindo ao administrador de concessionária!");
@@ -22,9 +24,10 @@ public class PainelInicial extends JPanel {
         botaoCadastro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                tela.trocarPainel("CADASTRO");
             }
         });
+
         this.add(botaoCadastro);
 
         JButton botaoLista = new JButton("Listar Veículos");
