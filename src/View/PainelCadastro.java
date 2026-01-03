@@ -1,16 +1,20 @@
 package View;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class PainelCadastro extends JPanel {
+public class PainelCadastro extends PainelPersonalizado {
 
-    private JFrame tela;
-
-    public PainelCadastro(JFrame tela) {
+    public PainelCadastro(TelaPrincipal tela, String tipoVeiculo) {
         this.tela = tela;
-        JLabel a = new JLabel("SSS");
-        a.setBounds(10, 10, 100, 40);
-        this.add(a);
+
+        JLabel titulo = new JLabel("Cadastro de Veículo");
+        titulo.setFont(new Font("Arial", Font.PLAIN, 20));
+        titulo.setBounds(175, 140, 450, 20);
+        this.add(titulo);
+
+
+
         this.setVisible(true);
     }
 

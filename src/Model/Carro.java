@@ -16,12 +16,8 @@ public class Carro extends Veiculo implements Motorizado {
         return this.consumoCombustivel;
     }
 
-    public double getConsumoCombustivel() {
-        return consumoCombustivel;
-    }
-
     public int getNumeroAssentos() {
-        return numeroAssentos;
+        return this.numeroAssentos;
     }
 
     public String getModelo() {
