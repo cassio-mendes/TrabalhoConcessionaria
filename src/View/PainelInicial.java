@@ -22,9 +22,7 @@ public class PainelInicial extends PainelPersonalizado {
         botaoCadastro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String tipoVeiculo = perguntarTipoVeiculo();
-
-                if(!tipoVeiculo.equals(" ")) { tela.trocarPainelCadastro(tipoVeiculo); }
+                tela.trocarPainel("CADASTRO", new PainelCadastro(tela));
             }
         });
         this.add(botaoCadastro);
@@ -74,40 +72,6 @@ public class PainelInicial extends PainelPersonalizado {
         this.add(botaoSAIR);
 
         this.setVisible(true);
-    }
-
-    private String perguntarTipoVeiculo() {
-        final String[] retorno = {" "};
-
-        JDialog telinha = new JDialog(this.tela, "Tipo do Veículo", true);
-        telinha.setLocationRelativeTo(this);
-        telinha.setSize(600, 200);
-        telinha.setLayout(null);
-        telinha.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JComboBox<String> selecaoTipo = new JComboBox<>(new String[]{"Carro", "Moto", "Bicicleta"});
-        selecaoTipo.setBounds(350, 70, 70, 20);
-        telinha.add(selecaoTipo);
-
-        JLabel instrucao = new JLabel("Selecione o tipo de veículo a ser cadastrado:");
-        instrucao.setFont(new Font("Arial", Font.PLAIN, 14));
-        instrucao.setBounds(50, 70, 300, 14);
-        telinha.add(instrucao);
-
-        JButton botaoSelecionar = new JButton("SELECIONAR");
-        botaoSelecionar.setFont(new Font("Arial", Font.PLAIN, 18));
-        botaoSelecionar.setBounds(240, 110, 160, 25);
-        botaoSelecionar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                retorno[0] = (String)selecaoTipo.getSelectedItem();
-                telinha.dispose();
-            }
-        });
-        telinha.add(botaoSelecionar);
-
-        telinha.setVisible(true); //Código para aqui até que a janela seja fechada
-        return retorno[0];
     }
 
 }

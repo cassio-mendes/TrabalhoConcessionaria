@@ -46,6 +46,7 @@ public class TelaPrincipal extends JFrame {
 
     public void trocarPainelCadastro(String tipoVeiculo) {
         if(!this.historicoPaineis.containsKey("CADASTRO")) {
+            System.out.println("Entrou no if");
             PainelPersonalizado novoPainelCadastro = new PainelCadastro(this);
 
             this.painelPrincipal.add(novoPainelCadastro, "CADASTRO");
@@ -53,9 +54,16 @@ public class TelaPrincipal extends JFrame {
         }
 
         PainelCadastro p = (PainelCadastro)this.historicoPaineis.get("CADASTRO");
-        p.setTipoVeiculo(tipoVeiculo);
+        System.out.println("alterou o tipo");
 
         this.baralhoPaineis.show(this.painelPrincipal, "CADASTRO");
     }
 
+    public JPanel getPainelPrincipal() {
+        return this.painelPrincipal;
+    }
+
+    public Hashtable<String, PainelPersonalizado> getHistoricoPaineis() {
+        return this.historicoPaineis;
+    }
 }

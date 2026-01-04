@@ -2,10 +2,16 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 public class PainelCadastro extends PainelPersonalizado {
 
-    private String tipoVeiculo;
+    private JTextField inputModelo;
+    private JTextField inputCor;
+    private JTextField inputPreco;
+    private JButton botaoConfirmacao;
 
     public PainelCadastro(TelaPrincipal tela) {
         this.tela = tela;
@@ -16,7 +22,7 @@ public class PainelCadastro extends PainelPersonalizado {
         titulo.setBounds(330, 80, 200, 20);
         this.add(titulo);
 
-        JLabel titulo2 = new JLabel("Informe as informações do veículo");
+        JLabel titulo2 = new JLabel("Insira as informações do veículo");
         titulo2.setFont(new Font("Arial", Font.PLAIN, 18));
         titulo2.setBounds(300, 110, 300, 20);
         this.add(titulo2);
@@ -27,7 +33,7 @@ public class PainelCadastro extends PainelPersonalizado {
         label1.setBounds(190, 150, 120, 16);
         this.add(label1);
 
-        JTextField inputModelo = new JTextField();
+        inputModelo = new JTextField();
         inputModelo.setBounds(250, 150, 300, 20);
         this.add(inputModelo);
 
@@ -37,7 +43,7 @@ public class PainelCadastro extends PainelPersonalizado {
         label2.setBounds(220, 180, 60, 16);
         this.add(label2);
 
-        JTextField inputCor = new JTextField();
+        inputCor = new JTextField();
         inputCor.setBounds(250, 180, 300, 20);
         this.add(inputCor);
 
@@ -47,25 +53,154 @@ public class PainelCadastro extends PainelPersonalizado {
         label3.setBounds(200, 210, 80, 16);
         this.add(label3);
 
-        JTextField inputPreco = new JTextField();
+        inputPreco = new JTextField();
         inputPreco.setBounds(250, 210, 300, 20);
         this.add(inputPreco);
 
-        //Informações específicas de cada veículo:
-        JLabel label4;
-        JLabel label5;
-        JTextField inputEspecifico1;
-        JTextField inputEspecifico2;
+        //Confirmação:
+        botaoConfirmacao = new JButton("CONTINUAR");
+        botaoConfirmacao.setFont(new Font("Arial", Font.PLAIN, 20));
+        botaoConfirmacao.setBounds(300, 350, 200, 40);
+        botaoConfirmacao.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                perguntarTipoVeiculo();
+            }
+        });
+        this.add(botaoConfirmacao);
 
-        switch (this.tipoVeiculo) {
-            case "Carro":
-            //label4.setText("Consumo de combustível");
-        }
+        //Botão de voltar à tela inicial:
+        JButton botaoSair = new JButton("VOLTAR");
+        botaoSair.setFont(new Font("Arial", Font.PLAIN, 20));
+        botaoSair.setBounds(300, 450, 200, 40);
+        botaoSair.addActionListener(e -> this.tela.trocarPainel("INICIAL", new PainelInicial(this.tela)));
+        this.add(botaoSair);
+
+        //Botão de recomeçar
+        JButton botaoRecomecar = new JButton("RECOMEÇAR");
+        botaoRecomecar.setFont(new Font("Arial", Font.PLAIN, 20));
+        botaoRecomecar.setBounds(300, 400, 200, 40);
+        botaoRecomecar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Referencia o painelPrincipal e o histórico de paineis da tela
+                JPanel painelPrincipal = tela.getPainelPrincipal();
+                Hashtable<String, PainelPersonalizado> historicoPaineis = tela.getHistoricoPaineis();
+
+                //Remove o painel de cadastro
+                painelPrincipal.remove(historicoPaineis.get("CADASTRO"));
+                historicoPaineis.remove("CADASTRO");
+
+                //Adiciona um novo painel de cadastro
+                PainelPersonalizado novoPainelCadastro = new PainelCadastro(tela);
+                painelPrincipal.add("CADASTRO", novoPainelCadastro);
+                historicoPaineis.put("CADASTRO", novoPainelCadastro);
+
+                //Volta para a tela inicial
+                tela.trocarPainel("INICIAL", new PainelInicial(tela));
+            }
+        });
+        this.add(botaoRecomecar);
 
         this.setVisible(true);
     }
 
-    public void setTipoVeiculo(String tipoVeiculo) {
-        this.tipoVeiculo = tipoVeiculo;
+    private void perguntarTipoVeiculo() {
+        final String[] tipoEscolhido = {" "};
+
+        JDialog telinha = new JDialog(this.tela, "Tipo do Veículo", true);
+        telinha.setLocationRelativeTo(this);
+        telinha.setSize(600, 200);
+        telinha.setLayout(null);
+        telinha.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JComboBox<String> selecaoTipo = new JComboBox<>(new String[]{"Carro", "Moto", "Bicicleta"});
+        selecaoTipo.setBounds(350, 70, 70, 20);
+        telinha.add(selecaoTipo);
+
+        JLabel instrucao = new JLabel("Selecione o tipo de veículo a ser cadastrado:");
+        instrucao.setFont(new Font("Arial", Font.PLAIN, 14));
+        instrucao.setBounds(50, 70, 300, 14);
+        telinha.add(instrucao);
+
+        JButton botaoSelecionar = new JButton("SELECIONAR");
+        botaoSelecionar.setFont(new Font("Arial", Font.PLAIN, 18));
+        botaoSelecionar.setBounds(240, 110, 160, 25);
+        botaoSelecionar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tipoEscolhido[0] = (String)selecaoTipo.getSelectedItem(); //Salva a opção selecionada
+                telinha.dispose(); //Fecha a janela
+            }
+        });
+        telinha.add(botaoSelecionar);
+
+        telinha.setVisible(true); //Código para aqui até que a janela seja fechada
+
+        if(!tipoEscolhido[0].equals(" ")) { //Se o usuário não fechou a janela clicando no'X'
+            atualizarTela(tipoEscolhido[0]);
+        }
     }
+
+    private void atualizarTela(String tipoVeiculo) {
+
+        //Remove o componente no índice 8, que é o botão de CONTINUAR
+        this.remove(this.botaoConfirmacao);
+
+        //Desabilita a edição dos campos de texto anteriores
+        this.inputCor.setEditable(false);
+        this.inputModelo.setEditable(false);
+        this.inputPreco.setEditable(false);
+
+        //Informações específicas de cada veículo:
+        JLabel label4 = new JLabel();
+        JLabel label5 = new JLabel();
+        JTextField inputEspecifico1 = new JTextField();
+        JTextField inputEspecifico2 = new JTextField();
+
+        if(tipoVeiculo.equals("Carro")) {
+
+            label4.setText("Consumo de combustível:");
+            label4.setFont(new Font("Arial", Font.PLAIN, 16));
+            label4.setBounds(70, 250, 200, 16);
+            this.add(label4);
+
+            inputEspecifico1.setBounds(250, 250, 300, 20);
+            this.add(inputEspecifico1);
+
+            label5.setText("Número de assentos:");
+            label5.setFont(new Font("Arial", Font.PLAIN, 16));
+            label5.setBounds(100, 280, 200, 16);
+            this.add(label5);
+
+            inputEspecifico2.setBounds(250, 280, 300, 20);
+            this.add(inputEspecifico2);
+        }
+
+        //Botão para finalizar o cadastro
+        JButton botaoCadastrar = new JButton("CADASTRAR");
+        botaoCadastrar.setFont(new Font("Arial", Font.PLAIN, 20));
+        botaoCadastrar.setBounds(300, 350, 200, 40);
+        botaoCadastrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String modelo = inputModelo.getText();
+                String cor = inputCor.getText();
+                String preco = inputPreco.getText();
+                String atributoEspecifico1 = inputEspecifico1.getText();
+                String atributoEspecifico2 = inputEspecifico2.getText();
+
+                finalizarCadastro(modelo, cor, preco, atributoEspecifico1, atributoEspecifico2);
+            }
+        });
+        this.add(botaoCadastrar);
+
+        this.repaint(); //Mostra o painel atualizado
+    }
+
+    private void finalizarCadastro(String modelo, String cor, String preco, String atributoEspecifico1, String atributoEspecifico2) {
+        //FAZER O CADASTRO COM AS INFORMAÇÕES CORRETAS (USAR EXCEPTIONS PARA TRATAMENTO DE ERROS)
+
+    }
+
 }
