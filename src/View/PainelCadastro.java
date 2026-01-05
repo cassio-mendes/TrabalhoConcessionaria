@@ -1,5 +1,8 @@
 package View;
 
+import Model.AtributosVaziosException;
+import Model.InteiroInvalidoException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +15,8 @@ public class PainelCadastro extends PainelPersonalizado {
     private JTextField inputCor;
     private JTextField inputPreco;
     private JButton botaoConfirmacao;
+
+    private String tipoVeiculo = "";
 
     public PainelCadastro(TelaPrincipal tela) {
         this.tela = tela;
@@ -106,8 +111,6 @@ public class PainelCadastro extends PainelPersonalizado {
     }
 
     private void perguntarTipoVeiculo() {
-        final String[] tipoEscolhido = {" "};
-
         JDialog telinha = new JDialog(this.tela, "Tipo do Veículo", true);
         telinha.setLocationRelativeTo(this);
         telinha.setSize(600, 200);
@@ -129,7 +132,7 @@ public class PainelCadastro extends PainelPersonalizado {
         botaoSelecionar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tipoEscolhido[0] = (String)selecaoTipo.getSelectedItem(); //Salva a opção selecionada
+                tipoVeiculo = (String)selecaoTipo.getSelectedItem(); //Salva a opção selecionada
                 telinha.dispose(); //Fecha a janela
             }
         });
@@ -137,20 +140,15 @@ public class PainelCadastro extends PainelPersonalizado {
 
         telinha.setVisible(true); //Código para aqui até que a janela seja fechada
 
-        if(!tipoEscolhido[0].equals(" ")) { //Se o usuário não fechou a janela clicando no'X'
-            atualizarTela(tipoEscolhido[0]);
+        if(!this.tipoVeiculo.equals(" ")) { //Se o usuário não fechou a janela clicando no'X'
+            atualizarTela();
         }
     }
 
-    private void atualizarTela(String tipoVeiculo) {
+    private void atualizarTela() {
 
         //Remove o botão de CONTINUAR
         this.remove(this.botaoConfirmacao);
-
-        //Desabilita a edição dos campos de texto anteriores
-        this.inputCor.setEditable(false);
-        this.inputModelo.setEditable(false);
-        this.inputPreco.setEditable(false);
 
         //Informações específicas de cada veículo:
         JLabel label4 = new JLabel();
@@ -165,7 +163,7 @@ public class PainelCadastro extends PainelPersonalizado {
         JLabel label5 = new JLabel();
         JTextField inputEspecifico2 = new JTextField();
 
-        switch (tipoVeiculo) {
+        switch (this.tipoVeiculo) {
             case "Carro":
                 label4.setText("Consumo de combustível:");
 
@@ -218,6 +216,40 @@ public class PainelCadastro extends PainelPersonalizado {
 
     private void finalizarCadastro(String modelo, String cor, String preco, String atributoEspecifico1, String atributoEspecifico2) {
         //FAZER O CADASTRO COM AS INFORMAÇÕES CORRETAS (USAR EXCEPTIONS PARA TRATAMENTO DE ERROS)
+
+        try {
+            String[] atributos = {modelo, cor, preco, atributoEspecifico1, atributoEspecifico2};
+
+            //Verifica se algum valor de entrada (atributo) está vazio:
+            for(String a : atributos) {
+                isAtributoVazio(a);
+            }
+
+            //Verifica se o preco é um número real (double)
+            isAtributoDouble(preco);
+
+            if(this.tipoVeiculo.equals("Carro")) {
+                //isAtributoDouble();
+            }
+
+            //Se o código chegar aqui, quer dizer que está tudo certo :)
+
+
+        } catch(AtributosVaziosException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void isAtributoVazio(String atributo) throws AtributosVaziosException {
+        if(atributo.isEmpty())
+            throw new AtributosVaziosException();
+    }
+
+    private void isAtributoDouble(String atributo) {
+
+    }
+
+    private void isAtributoInteiro(String atributo) throws InteiroInvalidoException {
 
     }
 
