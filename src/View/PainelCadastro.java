@@ -1,20 +1,26 @@
 package View;
 
 import Model.AtributosVaziosException;
-import Model.InteiroInvalidoException;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.Hashtable;
+import java.util.Locale;
 
 public class PainelCadastro extends PainelPersonalizado {
 
     private JTextField inputModelo;
     private JTextField inputCor;
-    private JTextField inputPreco;
+    private JFormattedTextField inputPreco;
     private JButton botaoConfirmacao;
+
+    private JFormattedTextField inputInteiro; //Input formatado para receber apenas inteiros
+    private JFormattedTextField inputDouble = null; //Input formatado para receber apenas double
+    private JTextField inputAcessorio; //Input para o atributo "acessorio" da Bicicleta
 
     private String tipoVeiculo = "";
 
@@ -58,7 +64,7 @@ public class PainelCadastro extends PainelPersonalizado {
         label3.setBounds(200, 210, 80, 16);
         this.add(label3);
 
-        inputPreco = new JTextField();
+        inputPreco = configuraTextFieldDouble(); //Configura a entrada para permitir apenas números double
         inputPreco.setBounds(250, 210, 300, 20);
         this.add(inputPreco);
 
@@ -151,46 +157,56 @@ public class PainelCadastro extends PainelPersonalizado {
         this.remove(this.botaoConfirmacao);
 
         //Informações específicas de cada veículo:
+
+        //Texto ao lado do primeiro componente de entrada
         JLabel label4 = new JLabel();
         label4.setFont(new Font("Arial", Font.PLAIN, 16));
         label4.setBounds(70, 250, 200, 16);
         this.add(label4);
 
-        JTextField inputEspecifico1 = new JTextField();
-        inputEspecifico1.setBounds(250, 250, 300, 20);
-        this.add(inputEspecifico1);
-
-        JLabel label5 = new JLabel();
-        JTextField inputEspecifico2 = new JTextField();
+        JLabel label5 = new JLabel(); //Texto ao lado do segundo componente de entrada (caso de Carro ou Moto)
 
         switch (this.tipoVeiculo) {
             case "Carro":
                 label4.setText("Consumo de combustível:");
+
+                inputDouble = configuraTextFieldDouble();
+                inputDouble.setBounds(270, 250, 300, 16);
+                this.add(inputDouble);
 
                 label5.setText("Número de assentos:");
                 label5.setFont(new Font("Arial", Font.PLAIN, 16));
                 label5.setBounds(100, 280, 200, 16);
                 this.add(label5);
 
-                inputEspecifico2.setBounds(250, 280, 300, 20);
-                this.add(inputEspecifico2);
+                inputInteiro = configuraTextFieldInteiro();
+                inputInteiro.setBounds(250, 280, 300, 20);
+                this.add(inputInteiro);
                 break;
 
             case "Moto":
                 label4.setText("Consumo de combustível:");
+
+                inputDouble = configuraTextFieldDouble();
+                inputDouble.setBounds(270, 250, 300, 16);
+                this.add(inputDouble);
 
                 label5.setText("Carenagem:");
                 label5.setFont(new Font("Arial", Font.PLAIN, 16));
                 label5.setBounds(160, 280, 200, 18);
                 this.add(label5);
 
-                inputEspecifico2.setBounds(250, 280, 300, 20);
-                this.add(inputEspecifico2);
+
+
                 break;
 
             default: //Bicicleta
                 label4.setText("Acessório:");
                 label4.setLocation(170, 250);
+
+                inputAcessorio = new JTextField();
+                inputAcessorio.setBounds(250, 250, 300, 20);
+                this.add(inputAcessorio);
         }
 
         //Botão para finalizar o cadastro
@@ -202,9 +218,22 @@ public class PainelCadastro extends PainelPersonalizado {
             public void actionPerformed(ActionEvent e) {
                 String modelo = inputModelo.getText();
                 String cor = inputCor.getText();
-                String preco = inputPreco.getText();
-                String atributoEspecifico1 = inputEspecifico1.getText();
-                String atributoEspecifico2 = inputEspecifico2.getText();
+                Double preco = (Double)inputPreco.getValue();
+                Object atributoEspecifico1;
+                Object atributoEspecifico2;
+
+                if(tipoVeiculo.equals("Carro")) {
+                    atributoEspecifico1 = inputDouble.getValue();
+                    atributoEspecifico2 = inputInteiro.getValue();
+
+                } else if(tipoVeiculo.equals("Moto")) {
+                    atributoEspecifico1 = inputDouble.getValue();
+                    atributoEspecifico2 = null; //A ser mudado
+
+                } else { //Bicicleta
+                    atributoEspecifico1 = inputAcessorio.getText();
+                    atributoEspecifico2 = null;
+                }
 
                 finalizarCadastro(modelo, cor, preco, atributoEspecifico1, atributoEspecifico2);
             }
@@ -214,43 +243,63 @@ public class PainelCadastro extends PainelPersonalizado {
         this.repaint(); //Mostra o painel atualizado
     }
 
-    private void finalizarCadastro(String modelo, String cor, String preco, String atributoEspecifico1, String atributoEspecifico2) {
+    private void finalizarCadastro(String modelo, String cor, Double preco, Object atributoEspecifico1, Object atributoEspecifico2) {
         //FAZER O CADASTRO COM AS INFORMAÇÕES CORRETAS (USAR EXCEPTIONS PARA TRATAMENTO DE ERROS)
 
         try {
-            String[] atributos = {modelo, cor, preco, atributoEspecifico1, atributoEspecifico2};
+            Object[] atributos = {modelo, cor, preco, atributoEspecifico1, atributoEspecifico2};
 
             //Verifica se algum valor de entrada (atributo) está vazio:
-            for(String a : atributos) {
+            for(Object a : atributos) {
                 isAtributoVazio(a);
             }
 
-            //Verifica se o preco é um número real (double)
-            isAtributoDouble(preco);
+            if(this.tipoVeiculo.equals("Moto")) {
 
-            if(this.tipoVeiculo.equals("Carro")) {
-                //isAtributoDouble();
             }
 
             //Se o código chegar aqui, quer dizer que está tudo certo :)
 
 
-        } catch(AtributosVaziosException e) {
+        } catch (AtributosVaziosException | NumberFormatException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+
         }
     }
 
-    private void isAtributoVazio(String atributo) throws AtributosVaziosException {
-        if(atributo.isEmpty())
+    private void isAtributoVazio(Object atributo) throws AtributosVaziosException {
+        if(atributo == null)
             throw new AtributosVaziosException();
     }
 
-    private void isAtributoDouble(String atributo) {
+    private JFormattedTextField configuraTextFieldDouble() {
+        //Define o formato de entrada como números double (Locale define o formato brasileiro, com vírgula, como padrão)
+        NumberFormat formatoDouble = NumberFormat.getNumberInstance(Locale.of("pt", "BR"));
 
+        //Define o mínimo de casas decimais como 1 e o máximo como 2
+        formatoDouble.setMinimumFractionDigits(1);
+        formatoDouble.setMaximumFractionDigits(2);
+
+        //Formato da entrada do preço
+        NumberFormatter formatadorDouble = new NumberFormatter(formatoDouble);
+        formatadorDouble.setValueClass(Double.class); //Define que os valores de entrada serão sempre Double
+        formatadorDouble.setAllowsInvalid(false); //Impede entradas inválidas
+        formatadorDouble.setMinimum(0.0); //Valor mínimo == 0.0
+
+        return new JFormattedTextField(formatadorDouble); //Usa o formatador para aplicar as configurações
     }
 
-    private void isAtributoInteiro(String atributo) throws InteiroInvalidoException {
+    private JFormattedTextField configuraTextFieldInteiro() {
+        //Define o formato de entrada como números double (Locale define o formato brasileiro, com vírgula, como padrão)
+        NumberFormat formatoInteiro = NumberFormat.getIntegerInstance();
 
+        //Formato da entrada do preço
+        NumberFormatter formatadorInteiro = new NumberFormatter(formatoInteiro);
+        formatadorInteiro.setValueClass(Integer.class); //Define que os valores de entrada serão sempre Double
+        formatadorInteiro.setAllowsInvalid(false); //Impede entradas inválidas
+        formatadorInteiro.setMinimum(0); //Valor mínimo == 0
+
+        return new JFormattedTextField(formatadorInteiro); //Usa o formatador para aplicar as configurações
     }
 
 }
