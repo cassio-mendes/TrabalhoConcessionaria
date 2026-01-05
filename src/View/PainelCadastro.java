@@ -115,7 +115,7 @@ public class PainelCadastro extends PainelPersonalizado {
         telinha.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JComboBox<String> selecaoTipo = new JComboBox<>(new String[]{"Carro", "Moto", "Bicicleta"});
-        selecaoTipo.setBounds(350, 70, 70, 20);
+        selecaoTipo.setBounds(350, 70, 80, 20);
         telinha.add(selecaoTipo);
 
         JLabel instrucao = new JLabel("Selecione o tipo de veículo a ser cadastrado:");
@@ -144,7 +144,7 @@ public class PainelCadastro extends PainelPersonalizado {
 
     private void atualizarTela(String tipoVeiculo) {
 
-        //Remove o componente no índice 8, que é o botão de CONTINUAR
+        //Remove o botão de CONTINUAR
         this.remove(this.botaoConfirmacao);
 
         //Desabilita a edição dos campos de texto anteriores
@@ -154,27 +154,45 @@ public class PainelCadastro extends PainelPersonalizado {
 
         //Informações específicas de cada veículo:
         JLabel label4 = new JLabel();
-        JLabel label5 = new JLabel();
+        label4.setFont(new Font("Arial", Font.PLAIN, 16));
+        label4.setBounds(70, 250, 200, 16);
+        this.add(label4);
+
         JTextField inputEspecifico1 = new JTextField();
+        inputEspecifico1.setBounds(250, 250, 300, 20);
+        this.add(inputEspecifico1);
+
+        JLabel label5 = new JLabel();
         JTextField inputEspecifico2 = new JTextField();
 
-        if(tipoVeiculo.equals("Carro")) {
+        switch (tipoVeiculo) {
+            case "Carro":
+                label4.setText("Consumo de combustível:");
 
-            label4.setText("Consumo de combustível:");
-            label4.setFont(new Font("Arial", Font.PLAIN, 16));
-            label4.setBounds(70, 250, 200, 16);
-            this.add(label4);
+                label5.setText("Número de assentos:");
+                label5.setFont(new Font("Arial", Font.PLAIN, 16));
+                label5.setBounds(100, 280, 200, 16);
+                this.add(label5);
 
-            inputEspecifico1.setBounds(250, 250, 300, 20);
-            this.add(inputEspecifico1);
+                inputEspecifico2.setBounds(250, 280, 300, 20);
+                this.add(inputEspecifico2);
+                break;
 
-            label5.setText("Número de assentos:");
-            label5.setFont(new Font("Arial", Font.PLAIN, 16));
-            label5.setBounds(100, 280, 200, 16);
-            this.add(label5);
+            case "Moto":
+                label4.setText("Consumo de combustível:");
 
-            inputEspecifico2.setBounds(250, 280, 300, 20);
-            this.add(inputEspecifico2);
+                label5.setText("Carenagem:");
+                label5.setFont(new Font("Arial", Font.PLAIN, 16));
+                label5.setBounds(160, 280, 200, 18);
+                this.add(label5);
+
+                inputEspecifico2.setBounds(250, 280, 300, 20);
+                this.add(inputEspecifico2);
+                break;
+
+            default: //Bicicleta
+                label4.setText("Acessório:");
+                label4.setLocation(170, 250);
         }
 
         //Botão para finalizar o cadastro
