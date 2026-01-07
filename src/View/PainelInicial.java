@@ -19,34 +19,19 @@ public class PainelInicial extends PainelPersonalizado {
         JButton botaoCadastro = new JButton("Cadastrar Veículo");
         botaoCadastro.setFont(new Font("Arial", Font.PLAIN, 20));
         botaoCadastro.setBounds(300, 230, 200, 40);
-        botaoCadastro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tela.trocarPainel("CADASTRO", new PainelCadastro(tela));
-            }
-        });
+        botaoCadastro.addActionListener(e -> tela.trocarPainel("CADASTRO", new PainelCadastro(tela)));
         this.add(botaoCadastro);
 
         JButton botaoLista = new JButton("Listar Veículos");
         botaoLista.setFont(new Font("Arial", Font.PLAIN, 20));
         botaoLista.setBounds(300, 280, 200, 40);
-        botaoLista.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tela.trocarPainel("LISTAGEM", new PainelListagem(tela));
-            }
-        });
+        botaoLista.addActionListener(e -> tela.trocarPainel("LISTAGEM", new PainelListagem(tela)));
         this.add(botaoLista);
 
         JButton botaoSAIR = new JButton("SAIR");
         botaoSAIR.setFont(new Font("Arial", Font.PLAIN, 20));
         botaoSAIR.setBounds(300, 330, 200, 40);
-        botaoSAIR.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        botaoSAIR.addActionListener(e -> System.exit(0));
         this.add(botaoSAIR);
 
         this.setVisible(true);
