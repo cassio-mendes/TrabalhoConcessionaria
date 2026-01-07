@@ -1,5 +1,8 @@
 package View;
 
+import Controller.BicicletaController;
+import Controller.CarroController;
+import Controller.MotoController;
 import Model.AtributosVaziosException;
 
 import javax.swing.*;
@@ -21,6 +24,9 @@ public class PainelCadastro extends PainelPersonalizado {
     private JFormattedTextField inputInteiro; //Input formatado para receber apenas inteiros
     private JFormattedTextField inputDouble = null; //Input formatado para receber apenas double
     private JTextField inputAcessorio; //Input para o atributo "acessorio" da Bicicleta
+
+    private JRadioButton carenagemSim;
+    private JRadioButton carenagemNao;
 
     private String tipoVeiculo = "";
 
@@ -196,8 +202,21 @@ public class PainelCadastro extends PainelPersonalizado {
                 label5.setBounds(160, 280, 200, 18);
                 this.add(label5);
 
+                //Botões de escolha única: sim (com carenagem) e não (sem carenagem)
+                ButtonGroup grupoBotoesCarenagem = new ButtonGroup(); //Conterá os botões de Sim ou Não
+                carenagemSim = new JRadioButton("Sim");
+                carenagemNao = new JRadioButton("Não", true);
 
+                grupoBotoesCarenagem.add(carenagemSim);
+                grupoBotoesCarenagem.add(carenagemNao);
 
+                carenagemSim.setFont(new Font("Arial", Font.PLAIN, 16));
+                carenagemNao.setFont(new Font("Arial", Font.PLAIN, 16));
+                carenagemSim.setBounds(270, 280, 80, 18);
+                carenagemNao.setBounds(450, 280, 80, 18);
+
+                this.add(carenagemSim);
+                this.add(carenagemNao);
                 break;
 
             default: //Bicicleta
@@ -223,19 +242,19 @@ public class PainelCadastro extends PainelPersonalizado {
                 Object atributoEspecifico2;
 
                 if(tipoVeiculo.equals("Carro")) {
-                    atributoEspecifico1 = inputDouble.getValue();
-                    atributoEspecifico2 = inputInteiro.getValue();
+                    atributoEspecifico1 = inputDouble.getValue(); //Consumo de Combustível
+                    atributoEspecifico2 = inputInteiro.getValue(); //Número de assentos
 
                 } else if(tipoVeiculo.equals("Moto")) {
-                    atributoEspecifico1 = inputDouble.getValue();
-                    atributoEspecifico2 = null; //A ser mudado
+                    atributoEspecifico1 = inputDouble.getValue(); //Consumo de Combustível
+                    atributoEspecifico2 = carenagemSim.isSelected(); //Se "Sim" está selecionado, tem carenagem (true)
 
                 } else { //Bicicleta
-                    atributoEspecifico1 = inputAcessorio.getText();
-                    atributoEspecifico2 = null;
+                    atributoEspecifico1 = inputAcessorio.getText(); //Nome do acessório
+                    atributoEspecifico2 = ""; //Não tem segundo atributo
                 }
 
-                finalizarCadastro(modelo, cor, preco, atributoEspecifico1, atributoEspecifico2);
+                finalizarCadastro(modelo, cor, preco, atributoEspecifico1, atributoEspecifico2); //Tentativa de finalizar
             }
         });
         this.add(botaoCadastrar);
@@ -254,16 +273,32 @@ public class PainelCadastro extends PainelPersonalizado {
                 isAtributoVazio(a);
             }
 
-            if(this.tipoVeiculo.equals("Moto")) {
+            //Se o código chegar aqui, quer dizer que está tudo certo :)
+            boolean tudoCerto = false; //Retorno dizendo se foi possível cadastrar
 
+            //Chamando a classe controller correspondende ao tipo do veículo:
+            switch(this.tipoVeiculo) {
+                case "Carro":
+                    //tudoCerto = CarroController.cadastrarCarro(modelo, cor, preco, (Double)atributoEspecifico1, (Integer)atributoEspecifico2);
+                    break;
+
+                case "Moto":
+                    //tudoCerto = MotoController.cadastrarMoto(modelo, cor, preco, (Double)atributoEspecifico1, (Boolean)atributoEspecifico2);
+                    break;
+
+                //Bike:
+                default:
+                    //tudoCerto = BicicletaController.cadastrarBicicleta(modelo, cor, preco, (String)atributoEspecifico1);
             }
 
-            //Se o código chegar aqui, quer dizer que está tudo certo :)
-
+            //Imprime um pop-up dependendo do resultado
+            if(tudoCerto)
+                JOptionPane.showMessageDialog(this, this.tipoVeiculo + "cadastrado(a)!");
+            else
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar :(", "ERROR", JOptionPane.ERROR_MESSAGE);
 
         } catch (AtributosVaziosException | NumberFormatException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-
         }
     }
 
