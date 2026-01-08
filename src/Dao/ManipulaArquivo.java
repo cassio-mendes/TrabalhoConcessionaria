@@ -3,6 +3,7 @@ package Dao;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
 
 public class ManipulaArquivo {
     private File arquivo;
@@ -33,5 +34,7 @@ public class ManipulaArquivo {
     public boolean atualizaVeiculo(){
         return true;
     }
+
+    public String[] getListaCompleta() throws IOException { return null; /*Temporário*/}
 
 }

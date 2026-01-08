@@ -1,38 +1,69 @@
 package View;
 
+import Controller.ListaController;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PainelListagem extends PainelPersonalizado {
 
+    private DefaultListModel<String> modeloLista;
+    private JList<String> lista;
+
     public PainelListagem(TelaPrincipal tela) {
         this.tela = tela;
-        this.setLayout(null);
+        this.setLayout(null); //Permite reposicionar os componentes
 
         JLabel titulo = new JLabel("Veículos Cadastrados");
         titulo.setFont(new Font("Arial", Font.PLAIN, 25));
         titulo.setBounds(280, 30, 300, 25);
         this.add(titulo);
 
-        DefaultListModel<String> modeloLista = new DefaultListModel<>(); //Criando o modelo da lista
+        this.modeloLista = new DefaultListModel<>(); //Criando o modelo da lista
 
-        JList<String> lista = new JList<>(modeloLista); //Criando a lista com o modelo
-        lista.setFont(new Font("Arial", Font.PLAIN, 16));
+        this.lista = new JList<>(this.modeloLista); //Criando a lista com o modelo
+        this.lista.setFont(new Font("Arial", Font.PLAIN, 16));
 
         //A lista deve estar no painelScroll, porque ela não possui scroll automático
-        JScrollPane painelScroll = new JScrollPane(lista); //Painel que pode "scrollar" para baixo
+        JScrollPane painelScroll = new JScrollPane(this.lista); //Painel que pode "scrollar" para baixo
 
         painelScroll.setBounds(90, 75, 600, 380);
         this.add(painelScroll);
 
-        JButton botaoAtualizar = new JButton("ATUALIZAR");
+        //Usando tags html para mostrar uma palavra embaixo da outra:
+        JButton botaoAtualizar = new JButton("<html><center>ATUALIZAR<br>VEÍCULO</center></html>");
+
         botaoAtualizar.setFont(new Font("Arial", Font.PLAIN, 20));
-        botaoAtualizar.setBounds(120, 490, 170, 40);
+        botaoAtualizar.setBounds(120, 480, 170, 60);
+        botaoAtualizar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(lista.getSelectedValue() == null) {
+                    JOptionPane.showMessageDialog(tela, "Selecione um item da lista para prosseguir", "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
+                } else {
+                    atualizarElemento(lista.getSelectedValue());
+                }
+            }
+        });
         this.add(botaoAtualizar);
 
         JButton botaoRemover = new JButton("REMOVER");
         botaoRemover.setFont(new Font("Arial", Font.PLAIN, 20));
         botaoRemover.setBounds(310, 490, 170, 40);
+        botaoRemover.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(lista.getSelectedValue() == null) {
+                    JOptionPane.showMessageDialog(tela, "Selecione um item da lista para prosseguir", "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
+                } else {
+                    removerElemento(lista.getSelectedValue());
+                }
+            }
+        });
         this.add(botaoRemover);
 
         JButton botaoVoltar = new JButton("VOLTAR");
@@ -41,7 +72,45 @@ public class PainelListagem extends PainelPersonalizado {
         botaoVoltar.addActionListener(e -> tela.trocarPainel("INICIAL", new PainelInicial(tela)));
         this.add(botaoVoltar);
 
+        this.preencherLista();
+
         this.setVisible(true);
+    }
+
+    private void preencherLista() {
+        String[] linhas = ListaController.listarVeiculos();
+
+        if(linhas == null) { //Ocorreu uma IOException
+            JOptionPane.showMessageDialog(this, "Houve um erro ao ler o arquivo registros",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            //Atualiza a lista:
+            this.modeloLista.removeAllElements(); //Remove os elementos atuais
+
+            for(String linha : linhas) {
+                this.modeloLista.addElement(linha); //Adiciona os novos elementos, um por um
+            }
+        }
+    }
+
+    private void atualizarElemento(String elemento) {
+        if(!ListaController.atualizarVeiculo(elemento)) {
+            JOptionPane.showMessageDialog(this, "Não foi possível atualizar o veículo selecionado",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Veículo atualizado com sucesso!");
+            this.preencherLista();
+        }
+    }
+
+    private void removerElemento(String elemento) {
+        if(!ListaController.removerVeiculo(elemento)) {
+            JOptionPane.showMessageDialog(this, "Não foi possível remover o veículo selecionado",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Veículo removido com sucesso!");
+            this.preencherLista();
+        }
     }
 
 }

@@ -123,6 +123,8 @@ public class PainelCadastro extends PainelPersonalizado {
     }
 
     private void perguntarTipoVeiculo() {
+        this.tipoVeiculo = " ";
+
         JDialog telinha = new JDialog(this.tela, "Tipo do Veículo", true);
         telinha.setLocationRelativeTo(this);
         telinha.setSize(600, 200);
@@ -278,17 +280,17 @@ public class PainelCadastro extends PainelPersonalizado {
 
             //Chamando a classe controller correspondende ao tipo do veículo:
             switch(this.tipoVeiculo) {
-                case "Carro":
-                    //tudoCerto = CarroController.cadastrarCarro(modelo, cor, preco, (Double)atributoEspecifico1, (Integer)atributoEspecifico2);
+                case "Carro": 
+                    tudoCerto = CarroController.cadastrarCarro(modelo, cor, preco, (Double)atributoEspecifico1, (Integer)atributoEspecifico2);
                     break;
 
                 case "Moto":
-                    //tudoCerto = MotoController.cadastrarMoto(modelo, cor, preco, (Double)atributoEspecifico1, (Boolean)atributoEspecifico2);
+                    tudoCerto = MotoController.cadastrarMoto(modelo, cor, preco, (Double)atributoEspecifico1, (Boolean)atributoEspecifico2);
                     break;
 
                 //Bike:
                 default:
-                    //tudoCerto = BicicletaController.cadastrarBicicleta(modelo, cor, preco, (String)atributoEspecifico1);
+                    tudoCerto = BicicletaController.cadastrarBicicleta(modelo, cor, preco, (String)atributoEspecifico1);
             }
 
             //Imprime um pop-up dependendo do resultado
