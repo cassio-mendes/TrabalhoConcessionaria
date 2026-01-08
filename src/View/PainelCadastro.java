@@ -309,7 +309,7 @@ public class PainelCadastro extends PainelPersonalizado {
 
     private JFormattedTextField configuraTextFieldDouble() {
         //Define o formato de entrada como números double (Locale define o formato brasileiro, com vírgula, como padrão)
-        NumberFormat formatoDouble = NumberFormat.getNumberInstance(Locale.of("pt", "BR"));
+        NumberFormat formatoDouble = NumberFormat.getNumberInstance(new Locale("pt", "BR"));
 
         //Define o mínimo de casas decimais como 1 e o máximo como 2
         formatoDouble.setMinimumFractionDigits(1);
