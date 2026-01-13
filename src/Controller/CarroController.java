@@ -1,11 +1,20 @@
 package Controller;
 
-import Model.Carro;
+import Dao.ManipulaArquivo;
+import java.io.IOException;
 
 public class CarroController {
 
-    public static boolean cadastrarCarro(String modelo, String cor, Double preco, Double consumoCombustivel, Integer numAssentos) {
-        return true; //Temporário
+    private static ManipulaArquivo manipulaArquivo = new ManipulaArquivo();
+
+    public static boolean cadastrarCarro(String modelo, String cor, Double preco,
+                                         Double consumoCombustivel, Integer numAssentos) {
+        try {
+            manipulaArquivo.cadastraCarro(modelo, preco, cor, consumoCombustivel, numAssentos);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
 }

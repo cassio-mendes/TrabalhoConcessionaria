@@ -39,6 +39,15 @@ public class TelaPrincipal extends JFrame {
             this.historicoPaineis.put(nomePainel, novoPainel);
         } else {
             //O painel já foi adicionado
+
+            if(nomePainel.equals("LISTAGEM")) { //O painel de listagem precisa ser atualizado
+                this.painelPrincipal.remove(this.historicoPaineis.get("LISTAGEM"));
+                this.historicoPaineis.remove("LISTAGEM");
+
+                this.painelPrincipal.add(novoPainel, nomePainel);
+                this.historicoPaineis.put(nomePainel, novoPainel);
+            }
+
             this.baralhoPaineis.show(this.painelPrincipal, nomePainel);
         }
 

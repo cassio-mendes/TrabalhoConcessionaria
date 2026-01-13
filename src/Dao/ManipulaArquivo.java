@@ -1,6 +1,7 @@
 package Dao;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class ManipulaArquivo {
 
@@ -14,42 +15,36 @@ public class ManipulaArquivo {
         this.arquivo = new File(NOME_ARQUIVO);
     }
 
-    public boolean cadastraCarro(String modelo, double preco, String cor,
+    public void cadastraCarro(String modelo, double preco, String cor,
                                  double consumoCombustivel, int numeroAssentos) throws IOException {
 
         bw = new BufferedWriter(new FileWriter(arquivo, true));
-        bw.write(modelo + ";" + preco + ";" + cor + ";" +
+        bw.write("Carro;" + modelo + ";" + preco + ";" + cor + ";" +
                 consumoCombustivel + ";" + numeroAssentos);
         bw.newLine();
         bw.close();
-
-        return true;
     }
 
-    public boolean cadastraMoto(String modelo, double preco, String cor,
+    public void cadastraMoto(String modelo, double preco, String cor,
                                 double consumoCombustivel, boolean carenagem) throws IOException {
 
         bw = new BufferedWriter(new FileWriter(arquivo, true));
-        bw.write(modelo + ";" + preco + ";" + cor + ";" +
+        bw.write("Moto;" + modelo + ";" + preco + ";" + cor + ";" +
                 consumoCombustivel + ";" + carenagem);
         bw.newLine();
         bw.close();
-
-        return true;
     }
 
-    public boolean cadastraBicicleta(String acessorio, String modelo,
-                                     double preco, String cor) throws IOException {
+    public void cadastraBicicleta(String modelo, double preco,
+                                     String cor, String acessorio) throws IOException {
 
         bw = new BufferedWriter(new FileWriter(arquivo, true));
-        bw.write(modelo + ";" + preco + ";" + cor + ";" + acessorio);
+        bw.write("Bicicleta;" + modelo + ";" + preco + ";" + cor + ";" + acessorio);
         bw.newLine();
         bw.close();
-
-        return true;
     }
 
-    public boolean retiraVeiculo(String linhaDeletada) throws IOException {
+    public void retiraVeiculo(String linhaDeletada) throws IOException {
 
         br = new BufferedReader(new FileReader(arquivo));
         bw = new BufferedWriter(new FileWriter("temp.csv"));
@@ -68,7 +63,20 @@ public class ManipulaArquivo {
 
         arquivo.delete();
         new File("temp.csv").renameTo(arquivo);
-
-        return true;
     }
+
+    public ArrayList<String> getListaCompleta() throws IOException {
+        br = new BufferedReader(new FileReader(arquivo));
+
+        ArrayList<String> linhas = new ArrayList<>();
+        String linhaAtual;
+
+        while((linhaAtual = br.readLine()) != null) {
+            linhas.add(linhaAtual);
+        }
+
+        br.close();
+        return linhas;
+    }
+
 }
