@@ -1,6 +1,10 @@
 package Controller;
 
 import Dao.ManipulaArquivo;
+import Model.Bicicleta;
+import Model.Carro;
+import Model.Moto;
+import Model.Veiculo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,12 +15,12 @@ public class ListaController {
 
     public static String[] listarVeiculos() {
         try {
-            ArrayList<String> lista = MANIPULA_ARQUIVO.getListaCompleta();
+            ArrayList<Veiculo> listaVeiculos = MANIPULA_ARQUIVO.getListaCompleta();
             String[] linhaAtual;
-            String[] listaFormatada = new String[lista.size()];
+            String[] listaFormatada = new String[listaVeiculos.size()];
 
             for(int i = 0; i < listaFormatada.length; i++) {
-                linhaAtual = lista.get(i).split(";");
+                linhaAtual = getLinhaAtual(listaVeiculos.get(i));
 
                 switch (linhaAtual[0]) { //Tipo de veículo
                     case "Carro":
@@ -43,6 +47,45 @@ public class ListaController {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    private static String[] getLinhaAtual(Veiculo veiculo) {
+        String[] linhaAtual;
+
+        if(veiculo instanceof Carro) {
+            Carro carro = (Carro)veiculo;
+
+            linhaAtual = new String[6]; //5 atributos de Carro
+            linhaAtual[0] = "Carro";
+            linhaAtual[1] = carro.getModelo();
+            linhaAtual[2] = String.valueOf(carro.getPreco());
+            linhaAtual[3] = carro.getCor();
+            linhaAtual[4] = String.valueOf(carro.calcularConsumo());
+            linhaAtual[5] = String.valueOf(carro.getNumeroAssentos());
+
+        } else if(veiculo instanceof Moto) {
+            Moto moto = (Moto)veiculo;
+
+            linhaAtual = new String[6]; //5 atributos de Moto
+            linhaAtual[0] = "Moto";
+            linhaAtual[1] = moto.getModelo();
+            linhaAtual[2] = String.valueOf(moto.getPreco());
+            linhaAtual[3] = moto.getCor();
+            linhaAtual[4] = String.valueOf(moto.calcularConsumo());
+            linhaAtual[5] = String.valueOf(moto.isCarenagem());
+
+        } else { //É uma Bicicleta
+            Bicicleta bike = (Bicicleta)veiculo;
+
+            linhaAtual = new String[6]; //4 atributos de Bicicleta
+            linhaAtual[0] = "Bicicleta";
+            linhaAtual[1] = bike.getModelo();
+            linhaAtual[2] = String.valueOf(bike.getPreco());
+            linhaAtual[3] = bike.getCor();
+            linhaAtual[4] = bike.getAcessorio();
+        }
+
+        return linhaAtual;
     }
 
     public static boolean atualizarVeiculo(String veiculo) {

@@ -1,5 +1,10 @@
 package Dao;
 
+import Model.Bicicleta;
+import Model.Carro;
+import Model.Moto;
+import Model.Veiculo;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -65,18 +70,37 @@ public class ManipulaArquivo {
         new File("temp.csv").renameTo(ARQUIVO);
     }
 
-    public ArrayList<String> getListaCompleta() throws IOException {
+    public ArrayList<Veiculo> getListaCompleta() throws IOException {
         br = new BufferedReader(new FileReader(ARQUIVO));
 
-        ArrayList<String> linhas = new ArrayList<>();
+        ArrayList<Veiculo> veiculos = new ArrayList<>();
         String linhaAtual;
+        String[] colunas;
 
         while((linhaAtual = br.readLine()) != null) {
-            linhas.add(linhaAtual);
+            colunas = linhaAtual.split(";");
+
+            switch (colunas[0]) { //A primeira coluna é o tipo do veículo
+                case "Carro":
+                    //Cria um carro com modelo, preço, cor, consumo de combustível e número de assentos
+                    veiculos.add(new Carro(colunas[1], Double.parseDouble(colunas[2]), colunas[3],
+                            Double.parseDouble(colunas[4]), Integer.parseInt(colunas[5])));
+                break;
+
+                case "Moto":
+                    //Cria uma moto com modelo, preço, cor, consumo de combustível e carenagem
+                    veiculos.add(new Moto(colunas[1], Double.parseDouble(colunas[2]), colunas[3],
+                            Double.parseDouble(colunas[4]), Boolean.parseBoolean(colunas[5])));
+                break;
+
+                default: //Bicicleta
+                    //Cria uma bicicleta com modelo, preço, cor e acessório
+                    veiculos.add(new Bicicleta(colunas[4], colunas[1], Double.parseDouble(colunas[2]), colunas[4]));
+            }
         }
 
         br.close();
-        return linhas;
+        return veiculos;
     }
 
 }
