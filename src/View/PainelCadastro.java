@@ -4,29 +4,25 @@ import Controller.BicicletaController;
 import Controller.CarroController;
 import Controller.MotoController;
 import Model.AtributosVaziosException;
-
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.Hashtable;
 import java.util.Locale;
 
 public class PainelCadastro extends PainelPersonalizado {
 
-    private JTextField inputModelo;
-    private JTextField inputCor;
-    private JFormattedTextField inputPreco;
-    private JButton botaoConfirmacao;
+    private final JTextField inputModelo;
+    private final JTextField inputCor;
+    private final JFormattedTextField inputPreco;
+    private final JButton botaoConfirmacao;
 
     private JFormattedTextField inputInteiro; //Input formatado para receber apenas inteiros
     private JFormattedTextField inputDouble = null; //Input formatado para receber apenas double
     private JTextField inputAcessorio; //Input para o atributo "acessorio" da Bicicleta
 
     private JRadioButton carenagemSim;
-    private JRadioButton carenagemNao;
 
     private String tipoVeiculo = "";
 
@@ -78,12 +74,7 @@ public class PainelCadastro extends PainelPersonalizado {
         botaoConfirmacao = new JButton("CONTINUAR");
         botaoConfirmacao.setFont(new Font("Arial", Font.PLAIN, 20));
         botaoConfirmacao.setBounds(300, 350, 200, 40);
-        botaoConfirmacao.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                perguntarTipoVeiculo();
-            }
-        });
+        botaoConfirmacao.addActionListener(e -> perguntarTipoVeiculo());
         this.add(botaoConfirmacao);
 
         //Botão de voltar à tela inicial:
@@ -97,25 +88,22 @@ public class PainelCadastro extends PainelPersonalizado {
         JButton botaoRecomecar = new JButton("RECOMEÇAR");
         botaoRecomecar.setFont(new Font("Arial", Font.PLAIN, 20));
         botaoRecomecar.setBounds(300, 400, 200, 40);
-        botaoRecomecar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Referencia o painelPrincipal e o histórico de paineis da tela
-                JPanel painelPrincipal = tela.getPainelPrincipal();
-                Hashtable<String, PainelPersonalizado> historicoPaineis = tela.getHistoricoPaineis();
+        botaoRecomecar.addActionListener(e -> {
+            //Referencia o painelPrincipal e o histórico de paineis da tela
+            JPanel painelPrincipal = tela.getPainelPrincipal();
+            Hashtable<String, PainelPersonalizado> historicoPaineis = tela.getHistoricoPaineis();
 
-                //Remove o painel de cadastro
-                painelPrincipal.remove(historicoPaineis.get("CADASTRO"));
-                historicoPaineis.remove("CADASTRO");
+            //Remove o painel de cadastro
+            painelPrincipal.remove(historicoPaineis.get("CADASTRO"));
+            historicoPaineis.remove("CADASTRO");
 
-                //Adiciona um novo painel de cadastro
-                PainelPersonalizado novoPainelCadastro = new PainelCadastro(tela);
-                painelPrincipal.add("CADASTRO", novoPainelCadastro);
-                historicoPaineis.put("CADASTRO", novoPainelCadastro);
+            //Adiciona um novo painel de cadastro
+            PainelPersonalizado novoPainelCadastro = new PainelCadastro(tela);
+            painelPrincipal.add("CADASTRO", novoPainelCadastro);
+            historicoPaineis.put("CADASTRO", novoPainelCadastro);
 
-                //Volta para a tela inicial
-                tela.trocarPainel("INICIAL", new PainelInicial(tela));
-            }
+            //Volta para a tela inicial
+            tela.trocarPainel("INICIAL", new PainelInicial(tela));
         });
         this.add(botaoRecomecar);
 
@@ -143,12 +131,9 @@ public class PainelCadastro extends PainelPersonalizado {
         JButton botaoSelecionar = new JButton("SELECIONAR");
         botaoSelecionar.setFont(new Font("Arial", Font.PLAIN, 18));
         botaoSelecionar.setBounds(240, 110, 160, 25);
-        botaoSelecionar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tipoVeiculo = (String)selecaoTipo.getSelectedItem(); //Salva a opção selecionada
-                telinha.dispose(); //Fecha a janela
-            }
+        botaoSelecionar.addActionListener(e -> {
+            tipoVeiculo = (String)selecaoTipo.getSelectedItem(); //Salva a opção selecionada
+            telinha.dispose(); //Fecha a janela
         });
         telinha.add(botaoSelecionar);
 
@@ -206,8 +191,10 @@ public class PainelCadastro extends PainelPersonalizado {
 
                 //Botões de escolha única: sim (com carenagem) e não (sem carenagem)
                 ButtonGroup grupoBotoesCarenagem = new ButtonGroup(); //Conterá os botões de Sim ou Não
+
+                //Botões:
                 carenagemSim = new JRadioButton("Sim");
-                carenagemNao = new JRadioButton("Não", true);
+                JRadioButton carenagemNao = new JRadioButton("Não", true);
 
                 grupoBotoesCarenagem.add(carenagemSim);
                 grupoBotoesCarenagem.add(carenagemNao);
@@ -234,30 +221,27 @@ public class PainelCadastro extends PainelPersonalizado {
         JButton botaoCadastrar = new JButton("CADASTRAR");
         botaoCadastrar.setFont(new Font("Arial", Font.PLAIN, 20));
         botaoCadastrar.setBounds(300, 350, 200, 40);
-        botaoCadastrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String modelo = inputModelo.getText();
-                String cor = inputCor.getText();
-                Double preco = (Double)inputPreco.getValue();
-                Object atributoEspecifico1;
-                Object atributoEspecifico2;
+        botaoCadastrar.addActionListener(e -> {
+            String modelo = inputModelo.getText();
+            String cor = inputCor.getText();
+            Double preco = (Double)inputPreco.getValue();
+            Object atributoEspecifico1;
+            Object atributoEspecifico2;
 
-                if(tipoVeiculo.equals("Carro")) {
-                    atributoEspecifico1 = inputDouble.getValue(); //Consumo de Combustível
-                    atributoEspecifico2 = inputInteiro.getValue(); //Número de assentos
+            if(tipoVeiculo.equals("Carro")) {
+                atributoEspecifico1 = inputDouble.getValue(); //Consumo de Combustível
+                atributoEspecifico2 = inputInteiro.getValue(); //Número de assentos
 
-                } else if(tipoVeiculo.equals("Moto")) {
-                    atributoEspecifico1 = inputDouble.getValue(); //Consumo de Combustível
-                    atributoEspecifico2 = carenagemSim.isSelected(); //Se "Sim" está selecionado, tem carenagem (true)
+            } else if(tipoVeiculo.equals("Moto")) {
+                atributoEspecifico1 = inputDouble.getValue(); //Consumo de Combustível
+                atributoEspecifico2 = carenagemSim.isSelected(); //Se "Sim" está selecionado, tem carenagem (true)
 
-                } else { //Bicicleta
-                    atributoEspecifico1 = inputAcessorio.getText(); //Nome do acessório
-                    atributoEspecifico2 = ""; //Não tem segundo atributo
-                }
-
-                finalizarCadastro(modelo, cor, preco, atributoEspecifico1, atributoEspecifico2); //Tentativa de finalizar
+            } else { //Bicicleta
+                atributoEspecifico1 = inputAcessorio.getText(); //Nome do acessório
+                atributoEspecifico2 = ""; //Não tem segundo atributo
             }
+
+            finalizarCadastro(modelo, cor, preco, atributoEspecifico1, atributoEspecifico2); //Tentativa de finalizar
         });
         this.add(botaoCadastrar);
 
@@ -276,11 +260,11 @@ public class PainelCadastro extends PainelPersonalizado {
             }
 
             //Se o código chegar aqui, quer dizer que está tudo certo :)
-            boolean tudoCerto = false; //Retorno dizendo se foi possível cadastrar
+            boolean tudoCerto; //Retorno dizendo se foi possível cadastrar
 
             //Chamando a classe controller correspondende ao tipo do veículo:
             switch(this.tipoVeiculo) {
-                case "Carro": 
+                case "Carro":
                     tudoCerto = CarroController.cadastrarCarro(modelo, cor, preco, (Double)atributoEspecifico1, (Integer)atributoEspecifico2);
                     break;
 
@@ -311,7 +295,7 @@ public class PainelCadastro extends PainelPersonalizado {
 
     private JFormattedTextField configuraTextFieldDouble() {
         //Define o formato de entrada como números double (Locale define o formato brasileiro, com vírgula, como padrão)
-        NumberFormat formatoDouble = NumberFormat.getNumberInstance(new Locale("pt", "BR"));
+        NumberFormat formatoDouble = NumberFormat.getNumberInstance(Locale.of("pt", "BR"));
 
         //Define o mínimo de casas decimais como 1 e o máximo como 2
         formatoDouble.setMinimumFractionDigits(1);

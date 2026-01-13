@@ -4,13 +4,11 @@ import Controller.ListaController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PainelListagem extends PainelPersonalizado {
 
-    private DefaultListModel<String> modeloLista;
-    private JList<String> lista;
+    private final DefaultListModel<String> modeloLista;
+    private final JList<String> lista;
 
     public PainelListagem(TelaPrincipal tela) {
         this.tela = tela;
@@ -37,15 +35,12 @@ public class PainelListagem extends PainelPersonalizado {
 
         botaoAtualizar.setFont(new Font("Arial", Font.PLAIN, 20));
         botaoAtualizar.setBounds(120, 480, 170, 60);
-        botaoAtualizar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(lista.getSelectedValue() == null) {
-                    JOptionPane.showMessageDialog(tela, "Selecione um item da lista para prosseguir", "ERROR",
-                            JOptionPane.ERROR_MESSAGE);
-                } else {
-                    atualizarElemento(lista.getSelectedValue());
-                }
+        botaoAtualizar.addActionListener(e -> {
+            if(lista.getSelectedValue() == null) {
+                JOptionPane.showMessageDialog(tela, "Selecione um item da lista para prosseguir", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                atualizarElemento(lista.getSelectedValue());
             }
         });
         this.add(botaoAtualizar);
@@ -53,15 +48,12 @@ public class PainelListagem extends PainelPersonalizado {
         JButton botaoRemover = new JButton("REMOVER");
         botaoRemover.setFont(new Font("Arial", Font.PLAIN, 20));
         botaoRemover.setBounds(310, 490, 170, 40);
-        botaoRemover.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(lista.getSelectedValue() == null) {
-                    JOptionPane.showMessageDialog(tela, "Selecione um item da lista para prosseguir", "ERROR",
-                            JOptionPane.ERROR_MESSAGE);
-                } else {
-                    removerElemento(lista.getSelectedValue());
-                }
+        botaoRemover.addActionListener(e -> {
+            if(lista.getSelectedValue() == null) {
+                JOptionPane.showMessageDialog(tela, "Selecione um item da lista para prosseguir", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                removerElemento(lista.getSelectedValue());
             }
         });
         this.add(botaoRemover);

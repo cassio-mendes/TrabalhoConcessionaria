@@ -6,9 +6,9 @@ import java.util.Hashtable;
 
 public class TelaPrincipal extends JFrame {
 
-    private JPanel painelPrincipal;
-    private CardLayout baralhoPaineis;
-    private Hashtable<String, PainelPersonalizado> historicoPaineis;
+    private final JPanel painelPrincipal;
+    private final CardLayout baralhoPaineis;
+    private final Hashtable<String, PainelPersonalizado> historicoPaineis;
 
     public TelaPrincipal() {
         this.baralhoPaineis = new CardLayout();

@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 public class ListaController {
 
-    private static ManipulaArquivo manipulaArquivo = new ManipulaArquivo();
+    private static final ManipulaArquivo MANIPULA_ARQUIVO = new ManipulaArquivo();
 
     public static String[] listarVeiculos() {
         try {
-            ArrayList<String> lista = manipulaArquivo.getListaCompleta();
+            ArrayList<String> lista = MANIPULA_ARQUIVO.getListaCompleta();
             String[] linhaAtual;
             String[] listaFormatada = new String[lista.size()];
 
@@ -60,7 +60,7 @@ public class ListaController {
     public static boolean removerVeiculo(String veiculo) {
         try {
             //Lógica de remover veículo da lista:
-            manipulaArquivo.retiraVeiculo(veiculo);
+            MANIPULA_ARQUIVO.retiraVeiculo(veiculo);
             return true;
 
         } catch (IOException e) {
