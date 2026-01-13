@@ -2,8 +2,8 @@ package Model;
 
 public class Moto extends Veiculo implements Motorizado {
 
-    private double consumoCombustivel;
-    private boolean carenagem;
+    private final double  consumoCombustivel;
+    private final boolean carenagem;
 
     public Moto(String modelo, double preco, String cor, double consumoCombustivel, boolean carenagem) {
         super(modelo, preco, cor);
@@ -15,4 +15,9 @@ public class Moto extends Veiculo implements Motorizado {
     public double calcularConsumo() {
         return this.consumoCombustivel;
     }
+
+    public boolean isCarenagem() {
+        return carenagem;
+    }
+
 }

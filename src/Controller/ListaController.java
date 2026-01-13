@@ -20,7 +20,7 @@ public class ListaController {
 
                 switch (linhaAtual[0]) { //Tipo de veículo
                     case "Carro":
-                        listaFormatada[i] = "Veículo: " + linhaAtual[0] + " | Modelo: " + linhaAtual[1] + " | Preço: " +
+                        listaFormatada[i] = "Veículo: " + linhaAtual[0] + " | Modelo: " + linhaAtual[1] + " | Preço: R$" +
                                 linhaAtual[2] + " | Cor: " + linhaAtual[3] + " | Consumo de Combustível: " + linhaAtual[4] +
                                 " | Número de Assentos: " + linhaAtual[5];
                     break;
@@ -28,13 +28,13 @@ public class ListaController {
                     case "Moto":
                         String carenagem = linhaAtual[5].equals("true") ? "Sim" : "Não";
 
-                        listaFormatada[i] = "Veículo: " + linhaAtual[0] + " | Modelo: " + linhaAtual[1] + " | Preço: " +
+                        listaFormatada[i] = "Veículo: " + linhaAtual[0] + " | Modelo: " + linhaAtual[1] + " | Preço: R$" +
                                 linhaAtual[2] + " | Cor: " + linhaAtual[3] + " | Consumo de Combustível: " + linhaAtual[4] +
                                 " | Carenagem: " + carenagem;
                     break;
 
                     default: //Bicicleta
-                        listaFormatada[i] = "Veículo: " + linhaAtual[0] + " | Modelo: " + linhaAtual[1] + " | Preço: " +
+                        listaFormatada[i] = "Veículo: " + linhaAtual[0] + " | Modelo: " + linhaAtual[1] + " | Preço: R$" +
                                 linhaAtual[2] + " | Cor: " + linhaAtual[3] + " | Acessório: " + linhaAtual[4];
                 }
             }

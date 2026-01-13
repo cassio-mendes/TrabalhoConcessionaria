@@ -2,7 +2,7 @@ package Model;
 
 public class Bicicleta extends Veiculo {
 
-    public String acessorio;
+    private final String acessorio;
 
     public Bicicleta(String acessorio, String modelo, double preco, String cor) {
         super(modelo, preco, cor);

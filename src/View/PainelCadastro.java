@@ -4,6 +4,10 @@ import Controller.BicicletaController;
 import Controller.CarroController;
 import Controller.MotoController;
 import Model.AtributosVaziosException;
+import Model.Bicicleta;
+import Model.Carro;
+import Model.Moto;
+
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
@@ -265,16 +269,19 @@ public class PainelCadastro extends PainelPersonalizado {
             //Chamando a classe controller correspondende ao tipo do veículo:
             switch(this.tipoVeiculo) {
                 case "Carro":
-                    tudoCerto = CarroController.cadastrarCarro(modelo, cor, preco, (Double)atributoEspecifico1, (Integer)atributoEspecifico2);
+                    Carro novoCarro = new Carro(modelo, preco, cor, (Double)atributoEspecifico1, (Integer)atributoEspecifico2);
+                    tudoCerto = CarroController.cadastrarCarro(novoCarro);
                     break;
 
                 case "Moto":
-                    tudoCerto = MotoController.cadastrarMoto(modelo, cor, preco, (Double)atributoEspecifico1, (Boolean)atributoEspecifico2);
+                    Moto novaMoto = new Moto(modelo, preco, cor, (Double)atributoEspecifico1, (Boolean)atributoEspecifico2);
+                    tudoCerto = MotoController.cadastrarMoto(novaMoto);
                     break;
 
                 //Bike:
                 default:
-                    tudoCerto = BicicletaController.cadastrarBicicleta(modelo, cor, preco, (String)atributoEspecifico1);
+                    Bicicleta novaBike = new Bicicleta(modelo, cor, preco, (String)atributoEspecifico1);
+                    tudoCerto = BicicletaController.cadastrarBicicleta(novaBike);
             }
 
             //Imprime um pop-up dependendo do resultado

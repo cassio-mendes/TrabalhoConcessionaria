@@ -12,4 +12,15 @@ public abstract class Veiculo {
         this.cor = cor;
     }
 
+    public String getModelo() {
+        return modelo;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public String getCor() {
+        return cor;
+    }
 }
