@@ -8,6 +8,8 @@ import Model.Veiculo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class ListaController {
 
@@ -46,7 +48,7 @@ public class ListaController {
 
             return listaFormatada;
         } catch (IOException e) {
-            return new String[0];
+            return null;
         }
     }
 
@@ -119,16 +121,17 @@ public class ListaController {
 
     public static boolean removerVeiculo(String veiculo) {
         try {
-            //Lógica de remover veículo da lista:
+            //Lista com todos os veículos cadastrados. Pode disparar NullPointerException
+            List<String> lista = java.util.Arrays.asList(Objects.requireNonNull(listarVeiculos()));
 
-            int index = java.util.Arrays.asList(listarVeiculos()).indexOf(veiculo);
-            Veiculo v = cacheVeiculos.get(index);
+            int index = lista.indexOf(veiculo); //Índice do veículo a ser removido da lista
+            Veiculo v = cacheVeiculos.get(index); //Referencia o veículo a ser removido
 
-            String linhacsv = montarLinhaCSV(v);
-            MANIPULA_ARQUIVO.retiraVeiculo(linhacsv);
+            String linhacsv = montarLinhaCSV(v); //Obtém a linha correspondente no arquivo
+            MANIPULA_ARQUIVO.retiraVeiculo(linhacsv); //Apaga a linha
             return true;
 
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             return false;
         }
     }
