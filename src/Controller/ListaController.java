@@ -11,16 +11,17 @@ import java.util.ArrayList;
 
 public class ListaController {
 
+    private static ArrayList<Veiculo> cacheVeiculos = new ArrayList<>();
     private static final ManipulaArquivo MANIPULA_ARQUIVO = new ManipulaArquivo();
 
     public static String[] listarVeiculos() {
         try {
             ArrayList<Veiculo> listaVeiculos = MANIPULA_ARQUIVO.getListaCompleta();
-            String[] linhaAtual;
+            cacheVeiculos = listaVeiculos;
             String[] listaFormatada = new String[listaVeiculos.size()];
 
             for(int i = 0; i < listaFormatada.length; i++) {
-                linhaAtual = getLinhaAtual(listaVeiculos.get(i));
+                String[] linhaAtual = getLinhaAtual(listaVeiculos.get(i));
 
                 switch (linhaAtual[0]) { //Tipo de veículo
                     case "Carro":
@@ -45,7 +46,7 @@ public class ListaController {
 
             return listaFormatada;
         } catch (IOException e) {
-            return null;
+            return new String[0];
         }
     }
 
@@ -100,10 +101,31 @@ public class ListaController {
         return true; //Temporário
     }
 
+    private static String montarLinhaCSV(Veiculo veiculo){
+        if(veiculo instanceof Carro){
+            Carro c = (Carro) veiculo;
+            return "Carro;" + c.getModelo() + ";" + c.getPreco() + ";" + c.getCor() + ";" +
+                    c.calcularConsumo() + ";" + c.getNumeroAssentos();
+        } else if(veiculo instanceof Moto){
+            Moto m = (Moto) veiculo;
+            return "Moto;" + m.getModelo() + ";" + m.getPreco() + ";" + m.getCor() + ";" +
+                    m.calcularConsumo() + ";" + m.isCarenagem();
+        } else {
+            Bicicleta b = (Bicicleta) veiculo;
+            return "Bicicleta;" + b.getModelo() + ";" + b.getPreco() + ";" + b.getCor() + ";"
+                     + b.getAcessorio();
+        }
+    }
+
     public static boolean removerVeiculo(String veiculo) {
         try {
             //Lógica de remover veículo da lista:
-            MANIPULA_ARQUIVO.retiraVeiculo(veiculo);
+
+            int index = java.util.Arrays.asList(listarVeiculos()).indexOf(veiculo);
+            Veiculo v = cacheVeiculos.get(index);
+
+            String linhacsv = montarLinhaCSV(v);
+            MANIPULA_ARQUIVO.retiraVeiculo(linhacsv);
             return true;
 
         } catch (IOException e) {

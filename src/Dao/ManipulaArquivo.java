@@ -51,13 +51,15 @@ public class ManipulaArquivo {
 
     public void retiraVeiculo(String linhaDeletada) throws IOException {
 
+        File temp = new File(ARQUIVO.getParent(), "temp.csv");
+
         br = new BufferedReader(new FileReader(ARQUIVO));
-        bw = new BufferedWriter(new FileWriter("temp.csv"));
+        bw = new BufferedWriter(new FileWriter(temp));
 
         String linhaAtual;
 
         while ((linhaAtual = br.readLine()) != null) {
-            if (!linhaAtual.equals(linhaDeletada)) {
+            if (!linhaAtual.trim().equals(linhaDeletada.trim())) {
                 bw.write(linhaAtual);
                 bw.newLine();
             }
@@ -66,8 +68,28 @@ public class ManipulaArquivo {
         br.close();
         bw.close();
 
-        ARQUIVO.delete();
-        new File("temp.csv").renameTo(ARQUIVO);
+        if (!ARQUIVO.delete()) {
+            throw new IOException("Não foi possível deletar o arquivo original!");
+        }
+
+        BufferedReader brTemp = new BufferedReader(new FileReader(temp));
+        BufferedWriter bwTemp = new BufferedWriter(new FileWriter(ARQUIVO));
+
+        String linha;
+
+        while((linha = brTemp.readLine()) != null){
+            bwTemp.write(linha);
+            bwTemp.newLine();
+        }
+
+        brTemp.close();
+        bwTemp.close();
+
+        if (temp.renameTo(ARQUIVO)) {
+            throw new IOException("Não foi possível renomear o arquivo temporario!");
+        }
+
+
     }
 
     public ArrayList<Veiculo> getListaCompleta() throws IOException {
