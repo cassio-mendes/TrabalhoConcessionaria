@@ -11,6 +11,12 @@ public class Moto extends Veiculo implements Motorizado {
         this.carenagem = carenagem;
     }
 
+    public Moto(String modelo, double preco, String cor, double consumoCombustivel) {
+        super(modelo, preco, cor);
+        this.consumoCombustivel = consumoCombustivel;
+        this.carenagem = false;
+    }
+
     @Override
     public double calcularConsumo() {
         return this.consumoCombustivel;

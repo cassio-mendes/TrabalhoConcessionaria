@@ -274,7 +274,13 @@ public class PainelCadastro extends PainelPersonalizado {
                     break;
 
                 case "Moto":
-                    Moto novaMoto = new Moto(modelo, preco, cor, (Double)atributoEspecifico1, (Boolean)atributoEspecifico2);
+                    Moto novaMoto;
+
+                    if((Boolean)atributoEspecifico2)
+                        novaMoto = new Moto(modelo, preco, cor, (Double)atributoEspecifico1, true);
+                    else
+                        novaMoto = new Moto(modelo, preco, cor, (Double)atributoEspecifico1);
+
                     tudoCerto = MotoController.cadastrarMoto(novaMoto);
                     break;
 

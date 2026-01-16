@@ -29,7 +29,7 @@ public class ListaController {
                     case "Carro":
                         listaFormatada[i] = "Veículo: " + linhaAtual[0] + " | Modelo: " + linhaAtual[1] + " | Preço: R$" +
                                 linhaAtual[2] + " | Cor: " + linhaAtual[3] + " | Consumo de Combustível: " + linhaAtual[4] +
-                                " | Número de Assentos: " + linhaAtual[5];
+                                " km/L | Número de Assentos: " + linhaAtual[5];
                     break;
 
                     case "Moto":
@@ -37,7 +37,7 @@ public class ListaController {
 
                         listaFormatada[i] = "Veículo: " + linhaAtual[0] + " | Modelo: " + linhaAtual[1] + " | Preço: R$" +
                                 linhaAtual[2] + " | Cor: " + linhaAtual[3] + " | Consumo de Combustível: " + linhaAtual[4] +
-                                " | Carenagem: " + carenagem;
+                                " km/L | Carenagem: " + carenagem;
                     break;
 
                     default: //Bicicleta
