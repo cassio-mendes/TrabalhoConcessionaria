@@ -286,7 +286,7 @@ public class PainelCadastro extends PainelPersonalizado {
 
                 //Bike:
                 default:
-                    Bicicleta novaBike = new Bicicleta(modelo, cor, preco, (String)atributoEspecifico1);
+                    Bicicleta novaBike = new Bicicleta((String)atributoEspecifico1, modelo, preco, cor);
                     tudoCerto = BicicletaController.cadastrarBicicleta(novaBike);
             }
 

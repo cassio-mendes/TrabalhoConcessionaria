@@ -117,7 +117,7 @@ public class ManipulaArquivo {
 
                 default: //Bicicleta
                     //Cria uma bicicleta com modelo, preço, cor e acessório
-                    veiculos.add(new Bicicleta(colunas[4], colunas[1], Double.parseDouble(colunas[2]), colunas[4]));
+                    veiculos.add(new Bicicleta(colunas[4], colunas[1], Double.parseDouble(colunas[2]), colunas[3]));
             }
         }
 

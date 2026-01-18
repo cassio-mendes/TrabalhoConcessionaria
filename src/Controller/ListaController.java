@@ -91,18 +91,6 @@ public class ListaController {
         return linhaAtual;
     }
 
-    public static boolean atualizarVeiculo(String veiculo) {
-        /*try {
-            //Lógica de atualizar veículo da lista:
-
-
-        } catch (IOException e) {
-            return false;
-        }*/
-
-        return true; //Temporário
-    }
-
     private static String montarLinhaCSV(Veiculo veiculo){
         if(veiculo instanceof Carro){
             Carro c = (Carro) veiculo;

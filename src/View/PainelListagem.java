@@ -30,24 +30,9 @@ public class PainelListagem extends PainelPersonalizado {
         painelScroll.setBounds(90, 75, 600, 380);
         this.add(painelScroll);
 
-        //Usando tags html para mostrar uma palavra embaixo da outra:
-        JButton botaoAtualizar = new JButton("<html><center>ATUALIZAR<br>VEÍCULO</center></html>");
-
-        botaoAtualizar.setFont(new Font("Arial", Font.PLAIN, 20));
-        botaoAtualizar.setBounds(120, 480, 170, 60);
-        botaoAtualizar.addActionListener(e -> {
-            if(lista.getSelectedValue() == null) {
-                JOptionPane.showMessageDialog(tela, "Selecione um item da lista para prosseguir", "ERROR",
-                        JOptionPane.ERROR_MESSAGE);
-            } else {
-                atualizarElemento(lista.getSelectedValue());
-            }
-        });
-        this.add(botaoAtualizar);
-
         JButton botaoRemover = new JButton("REMOVER");
         botaoRemover.setFont(new Font("Arial", Font.PLAIN, 20));
-        botaoRemover.setBounds(310, 490, 170, 40);
+        botaoRemover.setBounds(210, 490, 170, 40);
         botaoRemover.addActionListener(e -> {
             if(lista.getSelectedValue() == null) {
                 JOptionPane.showMessageDialog(tela, "Selecione um item da lista para prosseguir", "ERROR",
@@ -60,7 +45,7 @@ public class PainelListagem extends PainelPersonalizado {
 
         JButton botaoVoltar = new JButton("VOLTAR");
         botaoVoltar.setFont(new Font("Arial", Font.PLAIN, 20));
-        botaoVoltar.setBounds(500, 490, 170, 40);
+        botaoVoltar.setBounds(400, 490, 170, 40);
         botaoVoltar.addActionListener(e -> tela.trocarPainel("INICIAL", new PainelInicial(tela)));
         this.add(botaoVoltar);
 
@@ -82,16 +67,6 @@ public class PainelListagem extends PainelPersonalizado {
             for(String linha : linhas) {
                 this.modeloLista.addElement(linha); //Adiciona os novos elementos, um por um
             }
-        }
-    }
-
-    private void atualizarElemento(String elemento) {
-        if(!ListaController.atualizarVeiculo(elemento)) {
-            JOptionPane.showMessageDialog(this, "Não foi possível atualizar o veículo selecionado",
-                    "ERROR", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Veículo atualizado com sucesso!");
-            this.preencherLista();
         }
     }
 
